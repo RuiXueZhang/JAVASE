@@ -3,3 +3,8 @@
 Subject：Thread学习
 Description：Thread  三种创建方式
 solution: Thread 三种创建方式的简单实现
+
+
+Subject：Thread学习
+Description：Thread 线程状态的转换
+solution: Thread 线程状态改变模拟实现
