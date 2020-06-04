@@ -5,7 +5,16 @@ import org.junit.Test;
 import java.util.concurrent.locks.LockSupport;
 import java.util.stream.IntStream;
 
-
+/**
+ * 等待线程的状态
+ * 一个线程进入等待状态是由于调用了下面方法之一
+ *
+ * 不带超时时间的Object.wait()
+ * 不带超时时间的Thread.wait()
+ * LockSupport.park()
+ * 一个处于等待状态的线程是在等待另一个线程进行一些特殊的处理
+ *
+ */
 public class WaitingState {
 
     /**
@@ -14,22 +23,19 @@ public class WaitingState {
      *
      * 以下介绍进入waiting状态的方法
      */
-
-    @Test
-    public void waitOfWaiting(){
+    public void waitOfWaiting() throws InterruptedException {
 
         Thread thread = new Thread(()->{
             //IntStream.rangeClosed(1,1000).forEach(i->System.out.println(Thread.currentThread()+"-"+i));
-            try {
-                //线程进入waiting状态的方法
-                //Object.wait();
-                wait(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            //线程进入waiting状态的方法
+            //Object.wait();
+            while (true) {
+                Thread.yield();
             }
         });
 
         thread.start();
+        thread.wait(2000);
         System.out.println(thread.getState());
     }
 
@@ -39,7 +45,7 @@ public class WaitingState {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-               IntStream.rangeClosed(1,10).forEach(i -> System.out.println(Thread.currentThread()+"-"+i));
+                IntStream.rangeClosed(1,10).forEach(i -> System.out.println(Thread.currentThread()+"-"+i));
             }
         }
         );
@@ -47,9 +53,6 @@ public class WaitingState {
         Thread waiting = new Thread(() -> {
             try {
                 thread.join();
-                while (true){
-                    Thread.yield();
-                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

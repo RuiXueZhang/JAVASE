@@ -1,8 +1,6 @@
 package core.api;
 
 
-import java.awt.desktop.SystemSleepEvent;
-
 /**
  * 问题描述：
  * T1,T2,T3三个线程，如何使T2在T1执行完后执行，T3在T2执行完后执行
